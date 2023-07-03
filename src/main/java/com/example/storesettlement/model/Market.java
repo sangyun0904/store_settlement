@@ -17,8 +17,6 @@ public class Market {
     private String name;
     private String address;
     private String phone;
-    @OneToOne
-    private Owner owner;
     private Date openDate;
     private Date uploadDate;
 }

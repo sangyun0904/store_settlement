@@ -25,12 +25,20 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) ->
-                        authorizeRequests.requestMatchers("").permitAll().anyRequest().authenticated()
-                ).sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        authorizeRequests
+                                .requestMatchers(
+                                "/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                                ).permitAll()
+                                .anyRequest()
+                                .authenticated()
+                ).sessionManagement((sessionManagement) ->
+                        sessionManagement
+                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
-
     }
 }

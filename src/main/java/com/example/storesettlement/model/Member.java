@@ -1,6 +1,12 @@
 package com.example.storesettlement.model;
 
+import com.example.storesettlement.model.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,17 +19,23 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Member implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Username is required")
     private String username;
+    @NotBlank(message = "Password is required")
     private String password;
+    @Email(message = "Email is not valid")
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @NotNull
     private LocalDate createdDate;
 
     @Override
@@ -51,7 +63,4 @@ public class Member implements UserDetails {
         return false;
     }
 
-    public static enum Role {
-        OWNER, SETTLE_TEAM, ADMIN
-    }
 }
