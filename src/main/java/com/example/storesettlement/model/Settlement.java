@@ -1,12 +1,14 @@
 package com.example.storesettlement.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Entity
+@Getter
+@NoArgsConstructor
 public class Settlement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

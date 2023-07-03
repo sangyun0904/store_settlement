@@ -1,5 +1,6 @@
 package com.example.storesettlement.model;
 
+import com.example.storesettlement.model.enums.OrderState;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Order {
+public class OrderInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,4 @@ public class Order {
     private LocalDate orderDate;
     private OrderState orderState;
 
-    public static enum OrderState {
-        ORDERED, CANCELED, COMPLETED
-    }
 }
