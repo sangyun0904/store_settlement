@@ -5,11 +5,14 @@ import com.example.storesettlement.dto.AuthenticationResponse;
 import com.example.storesettlement.dto.RegisterRequest;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.repositories.MemberRepository;
+import com.example.storesettlement.utils.DefaultResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,29 +66,29 @@ public class AuthenticationService {
                 .build();
     }
 
-    public void refreshToken(
+    public AuthenticationResponse refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String username;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
         }
         refreshToken = authHeader.substring(7);
         username = jwtService.extractUsername(refreshToken);
         if (username != null) {
-            var user = this.memberRepository.findByUsername(username)
+            Member member = this.memberRepository.findByUsername(username)
                     .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateAccessToken(user);
-                var authResponse = AuthenticationResponse.builder()
+            if (jwtService.isTokenValid(refreshToken, member)) {
+                String accessToken = jwtService.generateAccessToken(member);
+                return AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+        return null;
     }
 }
