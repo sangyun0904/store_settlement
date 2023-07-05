@@ -4,6 +4,7 @@ import com.example.storesettlement.dto.AuthenticationRequest;
 import com.example.storesettlement.dto.AuthenticationResponse;
 import com.example.storesettlement.dto.RegisterRequest;
 import com.example.storesettlement.services.AuthenticationService;
+import com.example.storesettlement.services.MemberService;
 import com.example.storesettlement.utils.DefaultResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,12 +14,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+
+import static com.example.storesettlement.model.enums.Role.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,6 +26,7 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final MemberService memberService;
 
     @ApiResponse(responseCode = "200", description = "회원가입 성공", content =
             { @Content(mediaType = "application/json", schema =
@@ -56,6 +57,18 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         return new ResponseEntity(DefaultResponse.res(200, "토큰 리프레시 성공", authenticationService.refreshToken(request, response)), HttpStatus.OK);
+    }
+
+    @GetMapping("/testUser")
+    public void testUser() {
+        if (memberService.loadUserByUsername("admin") == null){
+            RegisterRequest request1 = new RegisterRequest("admin", "adminPass", "admin@gmail.com", ADMIN);
+            RegisterRequest request2 = new RegisterRequest("settle", "settlePass", "settle@gmail.com", SETTLE_TEAM);
+            RegisterRequest request3 = new RegisterRequest("owner", "ownerPass", "owner@gmail.com", OWNER);
+            authenticationService.register(request1);
+            authenticationService.register(request2);
+            authenticationService.register(request3);
+        }
     }
 
 }
