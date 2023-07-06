@@ -11,6 +11,7 @@ import com.example.storesettlement.repositories.MarketRepository;
 import com.example.storesettlement.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +23,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final MarketRepository marketRepository;
 
+    @Transactional
     public OrderInfo addOrder(OrderCreateDto orderDto) {
 
         OrderInfo orderInfo =  OrderInfo.builder()
@@ -38,6 +40,7 @@ public class OrderService {
         return orderRepository.save(orderInfo);
     }
 
+    @Transactional
     public OrderInfo editOrder(Long orderNum, OrderEditDto orderDto) {
         OrderInfo orderInfo = orderRepository.findByOrderNum(orderNum).orElseThrow();
 
@@ -55,15 +58,18 @@ public class OrderService {
         return orderRepository.save(newOrderInfo);
     }
 
+    @Transactional
     public void deleteOrder(Long orderNum) {
         OrderInfo order = orderRepository.findByOrderNum(orderNum).orElseThrow();
         orderRepository.delete(order);
     }
 
+    @Transactional
     public List<OrderInfo> getAllOrder() {
         return orderRepository.findAllByOrderByOrderDateDesc();
     }
 
+    @Transactional
     public OrderInfo getOrder(Long orderNum) {
         return orderRepository.findByOrderNum(orderNum).orElseThrow();
     }

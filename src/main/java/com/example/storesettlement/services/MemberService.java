@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,11 +18,13 @@ public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
                 .orElseGet(null);
     }
 
+    @Transactional
     public Member editMember(String username, MemberEditDto memberEdit) {
         Member member = memberRepository.findByUsername(username).orElseThrow();
 
@@ -35,6 +38,7 @@ public class MemberService implements UserDetailsService {
         return memberRepository.save(newMember);
     }
 
+    @Transactional
     public void deleteMember(Long id) {
         memberRepository.delete(memberRepository.findById(id).orElseThrow());
     }

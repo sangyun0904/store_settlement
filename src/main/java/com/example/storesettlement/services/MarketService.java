@@ -17,6 +17,7 @@ public class MarketService {
 
     private final MarketRepository marketRepository;
 
+    @Transactional
     public Market addMarket(MarketCreateDto marketCreate) {
 
         Market market = Market.builder()
@@ -31,6 +32,7 @@ public class MarketService {
         return marketRepository.save(market);
     }
 
+    @Transactional
     public Market editMarket(Long id, MarketEditDto marketEdit) {
         Market market = marketRepository.findById(id).orElseThrow();
 
@@ -45,15 +47,18 @@ public class MarketService {
         return marketRepository.save(updatedMarket);
     }
 
+    @Transactional
     public void deleteMarket(String name) {
         Market market = marketRepository.findByName(name).orElseThrow();
         marketRepository.delete(market);
     }
 
+    @Transactional
     public List<Market> getAllMarket() {
         return marketRepository.findAllByOrderByNameAsc();
     }
 
+    @Transactional
     public Market getMarket(String name) {
         return marketRepository.findByName(name).orElseThrow();
     }

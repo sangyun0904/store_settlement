@@ -1,5 +1,6 @@
 package com.example.storesettlement.services;
 
+import com.example.storesettlement.model.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Key;
 import java.util.Date;
@@ -26,60 +28,71 @@ public class JwtService {
     private long REFRESH_EXPIRATION;
 
 
-    public String generateAccessToken(UserDetails userDetails) {
-        return generateAccessToken(new HashMap<>(), userDetails);
+    @Transactional
+    public String generateAccessToken(Member member) {
+        return generateAccessToken(new HashMap<>(), member);
     }
 
+    @Transactional
     public String generateAccessToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            Member member
     ) {
-        return buildToken(extraClaims, userDetails, ACCESS_EXPIRATION);
+        return buildToken(extraClaims, member, ACCESS_EXPIRATION);
     }
 
+    @Transactional
     public String generateRefreshToken(
-            UserDetails userDetails
+            Member member
     ) {
-        return buildToken(new HashMap<>(), userDetails, REFRESH_EXPIRATION);
+        return buildToken(new HashMap<>(), member, REFRESH_EXPIRATION);
     }
 
+    @Transactional
     private String buildToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails,
+            Member member,
             long expiration
     ) {
+        extraClaims.put("role", member.getRole());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(member.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
+    @Transactional
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
+    @Transactional
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
+    @Transactional
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    @Transactional
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    @Transactional
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    @Transactional
     private Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
@@ -89,6 +102,7 @@ public class JwtService {
                 .getBody();
     }
 
+    @Transactional
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);

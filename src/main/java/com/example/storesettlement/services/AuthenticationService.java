@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class AuthenticationService {
     private final MemberRepository memberRepository;
     private final AuthenticationManager authenticationManager;
 
+    @Transactional
     public Member register(RegisterRequest request) {
         validateDuplicateUser(request.getUsername());
         Member member = Member.builder()
@@ -42,7 +44,7 @@ public class AuthenticationService {
         return memberRepository.save(member);
     }
 
-
+    @Transactional
     private void validateDuplicateUser(String username) {
         memberRepository.findByUsername(username)
                 .ifPresent(m -> {
@@ -50,6 +52,7 @@ public class AuthenticationService {
                 });
     }
 
+    @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         System.out.println(request.getUsername() + " " +  request.getPassword());
         authenticationManager.authenticate(
@@ -69,6 +72,7 @@ public class AuthenticationService {
                 .build();
     }
 
+    @Transactional
     public AuthenticationResponse refreshToken(
             HttpServletRequest request,
             HttpServletResponse response

@@ -5,6 +5,7 @@ import com.example.storesettlement.repositories.OrderRepository;
 import com.example.storesettlement.repositories.SettlementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class SettlementService {
     private final SettlementRepository settlementRepository;
     private final OrderRepository orderRepository;
 
+    @Transactional
     public List<Settlement> getSettlements() {
         return settlementRepository.findAll();
     }
