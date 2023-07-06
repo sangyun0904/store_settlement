@@ -58,7 +58,7 @@ public class AuthenticationController {
     ) throws IOException {
         return new ResponseEntity(DefaultResponse.res(200, "토큰 리프레시 성공", authenticationService.refreshToken(request, response)), HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/testUser")
     public void testUser() {
         if (memberService.loadUserByUsername("admin") == null){

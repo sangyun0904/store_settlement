@@ -30,7 +30,8 @@ public class AuthenticationService {
     private final MemberRepository memberRepository;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public Member register(RegisterRequest request) {
+        validateDuplicateUser(request.getUsername());
         Member member = Member.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -38,13 +39,15 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .createdDate(LocalDate.now())
                 .build();
-        memberRepository.save(member);
-        String accessToken = jwtService.generateAccessToken(member);
-        String refreshToken = jwtService.generateRefreshToken(member);
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return memberRepository.save(member);
+    }
+
+
+    private void validateDuplicateUser(String username) {
+        memberRepository.findByUsername(username)
+                .ifPresent(m -> {
+                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                });
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
