@@ -58,15 +58,15 @@ public class AuthenticationController {
     ) throws IOException {
         return new ResponseEntity(DefaultResponse.res(200, "토큰 리프레시 성공", authenticationService.refreshToken(request, response)), HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/testUser")
     public void testUser() {
         if (memberService.loadUserByUsername("admin") == null){
+            System.out.println("test");
             RegisterRequest request1 = new RegisterRequest("admin", "adminPass", "admin@gmail.com", ADMIN);
-            RegisterRequest request2 = new RegisterRequest("settle", "settlePass", "settle@gmail.com", SETTLE_TEAM);
-            RegisterRequest request3 = new RegisterRequest("owner", "ownerPass", "owner@gmail.com", OWNER);
             authenticationService.register(request1);
+            RegisterRequest request2 = new RegisterRequest("settle", "settlePass", "settle@gmail.com", SETTLE_TEAM);
             authenticationService.register(request2);
+            RegisterRequest request3 = new RegisterRequest("owner", "ownerPass", "owner@gmail.com", OWNER);
             authenticationService.register(request3);
         }
     }

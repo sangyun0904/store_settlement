@@ -21,7 +21,7 @@ public class MemberService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
-                .orElseGet(null);
+                .orElse(null);
     }
 
     @Transactional
