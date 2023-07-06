@@ -1,6 +1,7 @@
 package com.example.storesettlement.utils;
 
 import com.example.storesettlement.dto.AuthenticationResponse;
+import com.example.storesettlement.model.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +12,8 @@ import lombok.Data;
 @Builder
 public class DefaultResponse<T> {
 
-    @Schema()
     private int statusCode;
     private String responseMessage;
-    @Schema(anyOf = {AuthenticationResponse.class})
     private T data;
 
     public DefaultResponse(final int statusCode, final String responseMessage) {

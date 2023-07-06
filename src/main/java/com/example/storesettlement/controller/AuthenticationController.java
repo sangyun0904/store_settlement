@@ -3,17 +3,16 @@ package com.example.storesettlement.controller;
 import com.example.storesettlement.dto.AuthenticationRequest;
 import com.example.storesettlement.dto.AuthenticationResponse;
 import com.example.storesettlement.dto.RegisterRequest;
+import com.example.storesettlement.model.Member;
 import com.example.storesettlement.services.AuthenticationService;
 import com.example.storesettlement.services.MemberService;
 import com.example.storesettlement.utils.DefaultResponse;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,36 +27,32 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final MemberService memberService;
 
-    @ApiResponse(responseCode = "200", description = "회원가입 성공", content =
-            { @Content(mediaType = "application/json", schema =
-            @Schema(implementation = DefaultResponse.class)) })
+    @ApiResponse(responseCode = "200", description = "회원 추가", useReturnTypeSchema = true)
     @PostMapping("/register")
-    public ResponseEntity register(
+    public DefaultResponse<Member> register(
             @RequestBody RegisterRequest request
     ) {
-        return new ResponseEntity(DefaultResponse.res(200, "회원가입 성공", authenticationService.register(request)), HttpStatus.OK);
+        return DefaultResponse.res(200, "OK", authenticationService.register(request));
     }
 
-    @ApiResponse(responseCode = "200", description = "로그인 성공", content =
-            { @Content(mediaType = "application/json", schema =
-            @Schema(implementation = DefaultResponse.class)) })
+    @ApiResponse(responseCode = "200", description = "로그인 성공", useReturnTypeSchema = true)
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
+    public DefaultResponse<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        return new ResponseEntity(DefaultResponse.res(200, "로그인 성공", authenticationService.authenticate(request)), HttpStatus.OK);
+        return DefaultResponse.res(200, "OK", authenticationService.authenticate(request));
     }
 
-    @ApiResponse(responseCode = "200", description = "토큰 리프레시 성공", content =
-            { @Content(mediaType = "application/json", schema =
-            @Schema(implementation = DefaultResponse.class)) })
+    @ApiResponse(responseCode = "200", description = "토큰 리프레시 성공", useReturnTypeSchema = true)
     @PostMapping("/refresh-token")
-    public ResponseEntity<AuthenticationResponse> refreshToken(
+    public DefaultResponse<AuthenticationResponse> refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        return new ResponseEntity(DefaultResponse.res(200, "토큰 리프레시 성공", authenticationService.refreshToken(request, response)), HttpStatus.OK);
+        return DefaultResponse.res(200, "OK", authenticationService.refreshToken(request, response));
     }
+
+    @ApiResponse(responseCode = "200", description = "테스트 유저 생성", useReturnTypeSchema = true)
     @GetMapping("/testUser")
     public void testUser() {
         if (memberService.loadUserByUsername("admin") == null){

@@ -33,8 +33,8 @@ public class MarketService {
     }
 
     @Transactional
-    public Market editMarket(Long id, MarketEditDto marketEdit) {
-        Market market = marketRepository.findById(id).orElseThrow();
+    public Market editMarket(String name, MarketEditDto marketEdit) {
+        Market market = marketRepository.findByName(name).orElseThrow();
 
         Market updatedMarket = Market.builder()
                 .id(market.getId())

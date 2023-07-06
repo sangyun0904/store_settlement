@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,6 +19,6 @@ public class SettlementService {
 
     @Transactional
     public List<Settlement> getSettlements() {
-        return settlementRepository.findAll();
+        return settlementRepository.findAllBySettleDate(LocalDate.now());
     }
 }

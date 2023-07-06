@@ -6,6 +6,7 @@ import com.example.storesettlement.services.JwtService;
 import com.example.storesettlement.services.MemberService;
 import com.example.storesettlement.services.OwnerService;
 import com.example.storesettlement.utils.DefaultResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -22,6 +23,7 @@ public class OwnerController {
     private final MemberService memberService;
     private final OwnerService ownerService;
 
+    @ApiResponse(responseCode = "200", description = "업주 상세 조회", useReturnTypeSchema = true)
     @GetMapping("/ownerdetail")
     public DefaultResponse<Owner> ownerDetail(
             @NonNull HttpServletRequest request
@@ -37,4 +39,5 @@ public class OwnerController {
         return DefaultResponse.res(201, "Created", ownerService.getOwnerDetail(member));
 
     }
+
 }
