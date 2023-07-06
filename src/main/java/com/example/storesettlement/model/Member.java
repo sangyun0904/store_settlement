@@ -34,6 +34,7 @@ public class Member implements UserDetails {
     @Email(message = "Email is not valid")
     private String email;
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
     @NotNull
     private LocalDate createdDate;
