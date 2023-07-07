@@ -31,7 +31,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.METHOD_NOT_ALLOWED, 3000,
                 ex.getLocalizedMessage(), builder.toString());
         return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
+                apiError, new HttpHeaders(), HttpStatus.OK);
     }
 
     @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
@@ -41,7 +41,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         final String error = ex.getName() + " should be of type " + ex.getRequiredType().getName();
 
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 2000, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.OK);
     }
 
     @ExceptionHandler({AuthenticationException.class})
@@ -49,7 +49,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         final String error = "Check your password";
 
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 1000, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.OK);
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
@@ -59,14 +59,14 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 + message.substring(message.indexOf("interpolatedMessage='") + 21, message.indexOf("', propertyPath="));
 
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 5000, ex.getLocalizedMessage(), error);
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.OK);
     }
 
     @ExceptionHandler({IllegalStateException.class})
     public ResponseEntity<Object> handleIllegalStateException(final IllegalStateException ex, final WebRequest request) {
         final String error = ex.getLocalizedMessage();
 
-        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 6000, "이미 존재하는 회원입니다.", error);
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 6000, "Member already exists", error);
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.OK);
     }
 }
