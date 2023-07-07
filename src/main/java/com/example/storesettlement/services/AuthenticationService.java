@@ -48,7 +48,7 @@ public class AuthenticationService {
     private void validateDuplicateUser(String username) {
         memberRepository.findByUsername(username)
                 .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                    throw new IllegalStateException("Username '" + username + "' already exists.");
                 });
     }
 

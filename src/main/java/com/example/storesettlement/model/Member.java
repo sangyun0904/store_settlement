@@ -27,11 +27,11 @@ public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Username is required")
+    @NotBlank
     private String username;
-    @NotBlank(message = "Password is required")
+    @NotBlank
     private String password;
-    @Email(message = "Email is not valid")
+    @Email
     private String email;
     @Enumerated(EnumType.STRING)
     @NotNull

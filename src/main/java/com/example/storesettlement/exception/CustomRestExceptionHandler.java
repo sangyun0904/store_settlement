@@ -1,5 +1,6 @@
 package com.example.storesettlement.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -51,4 +52,21 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<Object> handleConstraintViolationException(final ConstraintViolationException ex, final WebRequest request) {
+        String message = ex.getLocalizedMessage();
+        final String error = message.substring(message.indexOf("propertyPath=") + 13, message.indexOf(", rootBeanClass")) + " 데이터가 "
+                + message.substring(message.indexOf("interpolatedMessage='") + 21, message.indexOf("', propertyPath="));
+
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 5000, ex.getLocalizedMessage(), error);
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler({IllegalStateException.class})
+    public ResponseEntity<Object> handleIllegalStateException(final IllegalStateException ex, final WebRequest request) {
+        final String error = ex.getLocalizedMessage();
+
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 6000, "이미 존재하는 회원입니다.", error);
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
 }
