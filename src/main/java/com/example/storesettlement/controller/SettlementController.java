@@ -18,7 +18,7 @@ public class SettlementController {
     private final SettlementService settlementService;
 
     @ApiResponse(responseCode = "200", description = "정산 리스트 조회", useReturnTypeSchema = true)
-    @GetMapping
+    @GetMapping("/list")
     public List<Settlement> settlementMain() {
         return settlementService.getSettlements();
     }
