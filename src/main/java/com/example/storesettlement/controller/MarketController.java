@@ -34,7 +34,7 @@ public class MarketController {
     @ApiResponse(responseCode = "200", description = "마켓 추가", useReturnTypeSchema = true)
     @PostMapping
     public DefaultResponse<Market> marketCreate(@RequestBody MarketCreateDto marketCreate) {
-        return DefaultResponse.res(201, "Created", marketService.addMarket(marketCreate));
+        return DefaultResponse.res(200, "OK", marketService.addMarket(marketCreate));
     }
 
     @ApiResponse(responseCode = "200", description = "마켓 수정", useReturnTypeSchema = true)
@@ -45,8 +45,9 @@ public class MarketController {
 
     @ApiResponse(responseCode = "200", description = "마켓 삭제", useReturnTypeSchema = true)
     @DeleteMapping("/{name}")
-    public void marketDelete(@PathVariable(value = "name") @Parameter(name = "name", description = "마켓 명") String name) {
+    public DefaultResponse marketDelete(@PathVariable(value = "name") @Parameter(name = "name", description = "마켓 명") String name) {
         marketService.deleteMarket(name);
+        return DefaultResponse.res(200, "OK", null);
     }
 
 }

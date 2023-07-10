@@ -44,8 +44,9 @@ public class OrderController {
 
     @ApiResponse(responseCode = "200", description = "주문 삭제", useReturnTypeSchema = true)
     @DeleteMapping("/{orderNum}")
-    public void orderDelete(@PathVariable(value = "orderNum") Long orderNum) {
+    public DefaultResponse orderDelete(@PathVariable(value = "orderNum") Long orderNum) {
         orderService.deleteOrder(orderNum);
+        return DefaultResponse.res(200, "OK", null);
     }
 
 }

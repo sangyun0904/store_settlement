@@ -1,5 +1,6 @@
 package com.example.storesettlement.services;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,11 @@ class SettlementServiceTest {
 
     @Autowired
     SettlementService settlementService;
+
+    @BeforeAll
+    void beforeAll() {
+
+    }
 
     @Test
     void getSettlements() {

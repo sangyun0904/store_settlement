@@ -18,12 +18,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OwnerServiceTest {
 
     @Autowired
-    AuthenticationController authenticationController;
+    private static AuthenticationController authenticationController;
 
     @Autowired
-    OwnerService ownerService;
+    private static OwnerService ownerService;
     @Autowired
-    MemberService memberService;
+    private static MemberService memberService;
 
     private Member member;
     private Owner owner;
