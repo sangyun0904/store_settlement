@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Getter
@@ -23,7 +25,8 @@ public class Owner {
     private Market market;
     @NotBlank
     private String accountNum;
-    @OneToOne
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     @NotNull
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;

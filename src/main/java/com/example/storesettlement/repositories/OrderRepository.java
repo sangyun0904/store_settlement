@@ -17,4 +17,6 @@ public interface OrderRepository extends JpaRepository<OrderInfo, Long> {
 
     @Query(value = "SELECT SUM(price) FROM order_info WHERE order_date > ?1 AND order_date < ?2 and order_state = COMPLETED", nativeQuery = true)
     Long findAllOrderForSettlement(LocalDate start, LocalDate end);
+
+    List<OrderInfo> getAllByMarket(Market market);
 }

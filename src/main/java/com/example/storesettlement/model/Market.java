@@ -29,7 +29,10 @@ public class Market {
     private String phone;
     @NotNull
     private int settleDate;
-    @OneToOne
+
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @NotNull
+    @JoinColumn(name = "OWNER_ID", nullable = false)
     private Owner owner;
     @NotNull
     private LocalDate openDate;

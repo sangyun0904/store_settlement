@@ -39,23 +39,8 @@ public class OwnerController {
 
         Member member = memberService.loadUserByUsername(username);
 
-        return DefaultResponse.res(201, "Created", ownerService.getOwnerDetail(member));
+        return DefaultResponse.res(200, "OK", ownerService.getOwnerDetail(member));
 
-    }
-
-    @ApiResponse(responseCode = "200", description = "테스트 업주 생성", useReturnTypeSchema = true)
-    @GetMapping("/testOwner")
-    public void testOwner() {
-        Member member = memberService.loadUserByUsername("owner");
-        if (ownerService.getOwnerDetail(member) == null){
-            Owner owner = Owner.builder()
-                            .accountNum("000000000000")
-                            .name("kim")
-                            .market(null)
-                            .member(member)
-                            .build();
-            ownerService.addOwner(owner);
-        }
     }
 
 

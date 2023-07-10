@@ -73,4 +73,8 @@ public class OrderService {
     public OrderInfo getOrder(Long orderNum) {
         return orderRepository.findByOrderNum(orderNum).orElseThrow();
     }
+
+    public List<OrderInfo> getOrderByMarket(Market market) {
+        return orderRepository.getAllByMarket(market);
+    }
 }

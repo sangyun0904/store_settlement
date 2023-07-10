@@ -52,20 +52,6 @@ public class AuthenticationController {
         return DefaultResponse.res(200, "OK", authenticationService.refreshToken(request, response));
     }
 
-    @ApiResponse(responseCode = "200", description = "테스트 유저 생성", useReturnTypeSchema = true)
-    @GetMapping("/testUser")
-    public void testUser() {
-        if (memberService.loadUserByUsername("admin") == null || memberService.loadUserByUsername("settle") == null || memberService.loadUserByUsername("owner") == null){
-            System.out.println("test");
-            RegisterRequest request1 = new RegisterRequest("admin", "adminPass", "admin@gmail.com", ADMIN);
-            authenticationService.register(request1);
-            RegisterRequest request2 = new RegisterRequest("settle", "settlePass", "settle@gmail.com", SETTLE_TEAM);
-            authenticationService.register(request2);
-            RegisterRequest request3 = new RegisterRequest("owner", "ownerPass", "owner@gmail.com", OWNER);
-            authenticationService.register(request3);
-        }
-    }
-
 
     @ApiResponse(responseCode = "200", description = "마켓 삭제", useReturnTypeSchema = true)
     @DeleteMapping("/{name}")

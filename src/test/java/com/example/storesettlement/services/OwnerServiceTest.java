@@ -1,6 +1,7 @@
 package com.example.storesettlement.services;
 
 import com.example.storesettlement.controller.AuthenticationController;
+import com.example.storesettlement.controller.TestDataController;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.repositories.OwnerRepository;
@@ -18,19 +19,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OwnerServiceTest {
 
     @Autowired
-    private static AuthenticationController authenticationController;
+    private AuthenticationController authenticationController;
 
     @Autowired
-    private static OwnerService ownerService;
+    private TestDataController testDataController;
+
     @Autowired
-    private static MemberService memberService;
+    private OwnerService ownerService;
+    @Autowired
+    private MemberService memberService;
 
     private Member member;
     private Owner owner;
 
     @BeforeAll
     void beforeAll() {
-        authenticationController.testUser();
+        testDataController.testUser();
         member = memberService.loadUserByUsername("owner");
         owner = Owner.builder()
                 .accountNum("000000000")

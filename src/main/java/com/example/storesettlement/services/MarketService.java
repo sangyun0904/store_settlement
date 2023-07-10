@@ -60,7 +60,7 @@ public class MarketService {
 
     @Transactional
     public Market getMarket(String name) {
-        return marketRepository.findByName(name).orElseThrow();
+        return marketRepository.findByName(name).orElse(null);
     }
 
 }

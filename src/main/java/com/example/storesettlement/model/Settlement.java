@@ -21,8 +21,9 @@ public class Settlement {
 
     @NotNull
     private long settlement;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @NotNull
+    @JoinColumn(name = "OWNER_ID", nullable = false)
     private Owner owner;
     @NotNull
     private LocalDate settleDate;

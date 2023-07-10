@@ -33,7 +33,7 @@ public class OrderController {
     @ApiResponse(responseCode = "200", description = "주문 생성", useReturnTypeSchema = true)
     @PostMapping
     public DefaultResponse<OrderInfo> orderCreate(@RequestBody OrderCreateDto orderCreateDto) {
-        return DefaultResponse.res(201, "Created", orderService.addOrder(orderCreateDto));
+        return DefaultResponse.res(200, "OK", orderService.addOrder(orderCreateDto));
     }
 
     @ApiResponse(responseCode = "200", description = "주문 수정", useReturnTypeSchema = true)

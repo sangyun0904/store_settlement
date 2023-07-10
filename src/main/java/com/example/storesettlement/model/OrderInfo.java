@@ -29,13 +29,16 @@ public class OrderInfo {
     private Long price;
     @NotBlank
     private String customer;
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
+    @JoinColumn(name = "MARKET_ID", nullable = false)
     private Market market;
     @NotNull
     private Long serviceCharge;
     @NotNull
     private LocalDate orderDate;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
 }
