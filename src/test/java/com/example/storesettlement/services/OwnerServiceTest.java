@@ -2,6 +2,7 @@ package com.example.storesettlement.services;
 
 import com.example.storesettlement.controller.AuthenticationController;
 import com.example.storesettlement.controller.TestDataController;
+import com.example.storesettlement.dto.OwnerCreateDto;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.repositories.OwnerRepository;
@@ -30,24 +31,19 @@ class OwnerServiceTest {
     private MemberService memberService;
 
     private Member member;
-    private Owner owner;
+    private OwnerCreateDto ownerDto;
 
     @BeforeAll
     void beforeAll() {
         testDataController.testUser();
         member = memberService.loadUserByUsername("owner");
-        owner = Owner.builder()
-                .accountNum("000000000")
-                .market(null)
-                .member(member)
-                .name("상윤")
-                .build();
-        ownerService.addOwner(owner);
+        ownerDto = new OwnerCreateDto("상윤", "no market", "000000000", "owner");
+        ownerService.addOwner(ownerDto);
     }
 
     @Test
     void getOwnerDetail() {
         Owner owner1 = ownerService.getOwnerDetail(member);
-        assertThat(owner1.getId()).isEqualTo(owner.getId());
+        assertThat(owner1.getName()).isEqualTo(ownerDto.name());
     }
 }

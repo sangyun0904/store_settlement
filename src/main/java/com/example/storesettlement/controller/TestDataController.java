@@ -1,6 +1,7 @@
 package com.example.storesettlement.controller;
 
 import com.example.storesettlement.dto.OrderCreateDto;
+import com.example.storesettlement.dto.OwnerCreateDto;
 import com.example.storesettlement.dto.RegisterRequest;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
@@ -49,13 +50,8 @@ public class TestDataController {
 
         Member member = memberService.loadUserByUsername("owner");
         if (ownerService.getOwnerDetail(member) == null) {
-            Owner owner = Owner.builder()
-                    .accountNum("000000000000")
-                    .name("no name")
-                    .market(null)
-                    .member(member)
-                    .build();
-            ownerService.addOwner(owner);
+            OwnerCreateDto ownerDto = new OwnerCreateDto("no name", "no market", "000000000000", "owner");
+            ownerService.addOwner(ownerDto);
         }
 
         Market market = marketRepository.findByName("no name market").orElse(null);

@@ -1,5 +1,6 @@
 package com.example.storesettlement.services;
 
+import com.example.storesettlement.dto.OwnerCreateDto;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.repositories.OwnerRepository;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class OwnerService {
 
     private final OwnerRepository ownerRepository;
+    private final MarketService marketService;
+    private final MemberService memberService;
 
     @Transactional
     public Owner getOwnerDetail(Member member) {
@@ -19,7 +22,13 @@ public class OwnerService {
     }
 
     @Transactional
-    public Owner addOwner(Owner owner) {
+    public Owner addOwner(OwnerCreateDto ownerDto) {
+        Owner owner = Owner.builder()
+                .name(ownerDto.name())
+                .market(marketService.getMarket(ownerDto.marketName()))
+                .accountNum(ownerDto.accountNum())
+                .member(memberService.loadUserByUsername(ownerDto.username()))
+                .build();
         return ownerRepository.save(owner);
     }
 }

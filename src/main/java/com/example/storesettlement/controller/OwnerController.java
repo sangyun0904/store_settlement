@@ -1,6 +1,9 @@
 package com.example.storesettlement.controller;
 
+import com.example.storesettlement.dto.MarketCreateDto;
+import com.example.storesettlement.dto.OwnerCreateDto;
 import com.example.storesettlement.dto.RegisterRequest;
+import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.services.JwtService;
@@ -11,9 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.example.storesettlement.model.enums.Role.*;
 
@@ -41,6 +42,12 @@ public class OwnerController {
 
         return DefaultResponse.res(200, "OK", ownerService.getOwnerDetail(member));
 
+    }
+
+    @ApiResponse(responseCode = "200", description = "점주 추가", useReturnTypeSchema = true)
+    @PostMapping
+    public DefaultResponse<Owner> marketCreate(@RequestBody OwnerCreateDto ownerDto) {
+        return DefaultResponse.res(200, "OK", ownerService.addOwner(ownerDto));
     }
 
 
