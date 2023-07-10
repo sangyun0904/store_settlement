@@ -50,7 +50,7 @@ public class TestDataController {
 
         Member member = memberService.loadUserByUsername("owner");
         if (ownerService.getOwnerDetail(member) == null) {
-            OwnerCreateDto ownerDto = new OwnerCreateDto("no name", "no market", "000000000000", "owner");
+            OwnerCreateDto ownerDto = new OwnerCreateDto("no name", "000000000000", "owner");
             ownerService.addOwner(ownerDto);
         }
 

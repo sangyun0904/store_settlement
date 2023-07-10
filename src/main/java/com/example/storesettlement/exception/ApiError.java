@@ -4,21 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
-import java.util.List;
-
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class ApiError {
     private HttpStatus status;
     private int customCode;
     private String message;
-    private List<String> errors;
+    private String errors;
 
-    public ApiError(HttpStatus status, int customCode, String message, String error) {
-        this.status = status;
-        this.customCode = customCode;
-        this.message = message;
-        errors = Arrays.asList(error);
-    }
 }

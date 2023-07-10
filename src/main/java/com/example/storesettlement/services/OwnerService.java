@@ -25,7 +25,7 @@ public class OwnerService {
     public Owner addOwner(OwnerCreateDto ownerDto) {
         Owner owner = Owner.builder()
                 .name(ownerDto.name())
-                .market(marketService.getMarket(ownerDto.marketName()))
+                .market(null)
                 .accountNum(ownerDto.accountNum())
                 .member(memberService.loadUserByUsername(ownerDto.username()))
                 .build();
