@@ -46,7 +46,7 @@ public class OrderController {
     @DeleteMapping("/{orderNum}")
     public DefaultResponse orderDelete(@PathVariable(value = "orderNum") Long orderNum) {
         orderService.deleteOrder(orderNum);
-        return DefaultResponse.res(200, "OK", null);
+        return DefaultResponse.res(200, "OK");
     }
 
 }

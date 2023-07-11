@@ -54,7 +54,6 @@ public class AuthenticationService {
 
     @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        System.out.println(request.getUsername() + " " +  request.getPassword());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -63,7 +62,6 @@ public class AuthenticationService {
         );
         Member member = memberRepository.findByUsername(request.getUsername())
                 .orElseThrow();
-        System.out.println(member);
         String jwtToken = jwtService.generateAccessToken(member);
         String refreshToken = jwtService.generateRefreshToken(member);
         return AuthenticationResponse.builder()

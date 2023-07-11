@@ -37,8 +37,8 @@ class OwnerServiceTest {
     void beforeAll() {
         testDataController.testUser();
         member = memberService.loadUserByUsername("owner");
-        ownerDto = new OwnerCreateDto("상윤", "no market", "000000000", "owner");
-        ownerService.addOwner(ownerDto);
+        ownerDto = new OwnerCreateDto("상윤", "000000000", "owner");
+        ownerService.addOwner(member, ownerDto);
     }
 
     @Test

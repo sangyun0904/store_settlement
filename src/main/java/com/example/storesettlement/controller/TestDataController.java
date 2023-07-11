@@ -32,7 +32,7 @@ public class TestDataController {
     private final MarketRepository marketRepository;
     private final OrderService orderService;
 
-    @ApiResponse(responseCode = "200", description = "테스트 유저 생성", useReturnTypeSchema = true)
+    @ApiResponse(responseCode = "200", description = "테스트 데이터 생성", useReturnTypeSchema = true)
     @GetMapping()
     public DefaultResponse testUser() {
         if (memberService.loadUserByUsername("admin") == null) {
@@ -51,7 +51,7 @@ public class TestDataController {
         Member member = memberService.loadUserByUsername("owner");
         if (ownerService.getOwnerDetail(member) == null) {
             OwnerCreateDto ownerDto = new OwnerCreateDto("no name", "000000000000", "owner");
-            ownerService.addOwner(ownerDto);
+            ownerService.addOwner(member, ownerDto);
         }
 
         Market market = marketRepository.findByName("no name market").orElse(null);

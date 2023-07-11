@@ -25,12 +25,25 @@ public class SettlementService {
 
         Long orderIncome = orderRepository.findAllOrderForSettlement(settle_start_date, settle_end_date);
 
-        Settlement settlement = Settlement.builder()
-                .settlement(orderIncome)
-                .owner(market.getOwner())
-                .settleDate(LocalDate.now())
-                .isPaid(false)
-                .build();
+        Settlement settlement = settlementRepository.findByMarketAndYearAndMonth(market, Integer.parseInt(year), Integer.parseInt(month)).orElse(null);
+
+        if (settlement == null) {
+            settlement = Settlement.builder()
+                    .settlement(orderIncome)
+                    .owner(market.getOwner())
+                    .settleDate(LocalDate.now())
+                    .isPaid(false)
+                    .build();
+        } else {
+            settlement = Settlement.builder()
+                    .id(settlement.getId())
+                    .settlement(orderIncome)
+                    .owner(market.getOwner())
+                    .settleDate(LocalDate.now())
+                    .isPaid(false)
+                    .build();
+        }
+
 
         return settlementRepository.save(settlement);
     }

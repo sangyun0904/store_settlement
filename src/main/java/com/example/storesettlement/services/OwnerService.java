@@ -22,7 +22,12 @@ public class OwnerService {
     }
 
     @Transactional
-    public Owner addOwner(OwnerCreateDto ownerDto) {
+    public Owner addOwner(Member member, OwnerCreateDto ownerDto) {
+
+        if (ownerRepository.findByMember(member).isPresent()) {
+            throw new IllegalStateException("이 계정의 Owner가 이미 존재합니다.");
+        }
+
         Owner owner = Owner.builder()
                 .name(ownerDto.name())
                 .market(null)

@@ -26,6 +26,10 @@ public class Settlement {
     @JoinColumn(name = "OWNER_ID", nullable = false)
     private Owner owner;
     @NotNull
+    private int year;
+    @NotNull
+    private int month;
+    @NotNull
     private LocalDate settleDate;
     @NotNull
     private boolean isPaid;

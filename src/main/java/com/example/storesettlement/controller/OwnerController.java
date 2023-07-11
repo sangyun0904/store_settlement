@@ -46,8 +46,16 @@ public class OwnerController {
 
     @ApiResponse(responseCode = "200", description = "점주 추가", useReturnTypeSchema = true)
     @PostMapping
-    public DefaultResponse<Owner> marketCreate(@RequestBody OwnerCreateDto ownerDto) {
-        return DefaultResponse.res(200, "OK", ownerService.addOwner(ownerDto));
+    public DefaultResponse<Owner> marketCreate(@NonNull HttpServletRequest request, @RequestBody OwnerCreateDto ownerDto) {
+        String authHeader = request.getHeader("Authorization");
+        String jwt = authHeader.substring(7);
+
+
+        String username = jwtService.extractUsername(jwt);
+
+        Member member = memberService.loadUserByUsername(username);
+
+        return DefaultResponse.res(200, "OK", ownerService.addOwner(member, ownerDto));
     }
 
 

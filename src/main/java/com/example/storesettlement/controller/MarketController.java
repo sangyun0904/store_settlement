@@ -47,7 +47,7 @@ public class MarketController {
     @DeleteMapping("/{name}")
     public DefaultResponse marketDelete(@PathVariable(value = "name") @Parameter(name = "name", description = "마켓 명") String name) {
         marketService.deleteMarket(name);
-        return DefaultResponse.res(200, "OK", null);
+        return DefaultResponse.res(200, "OK");
     }
 
 }

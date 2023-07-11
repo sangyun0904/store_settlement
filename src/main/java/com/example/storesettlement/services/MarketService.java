@@ -20,6 +20,11 @@ public class MarketService {
     @Transactional
     public Market addMarket(MarketCreateDto marketCreate) {
 
+
+        if (marketRepository.findByName(marketCreate.name()).isPresent()) {
+            throw new IllegalStateException("같은 이름의 마켓이 존재합니다.");
+        }
+
         Market market = Market.builder()
                 .name(marketCreate.name())
                 .address(marketCreate.address())
