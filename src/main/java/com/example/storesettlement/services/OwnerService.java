@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OwnerService {
@@ -35,5 +37,10 @@ public class OwnerService {
                 .member(memberService.loadUserByUsername(ownerDto.username()))
                 .build();
         return ownerRepository.save(owner);
+    }
+
+    @Transactional
+    public List<Owner> ownerList() {
+        return ownerRepository.findAll();
     }
 }

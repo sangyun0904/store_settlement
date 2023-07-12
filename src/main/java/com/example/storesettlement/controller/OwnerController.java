@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.storesettlement.model.enums.Role.*;
 
 @RestController
@@ -58,5 +60,10 @@ public class OwnerController {
         return DefaultResponse.res(200, "OK", ownerService.addOwner(member, ownerDto));
     }
 
+    @ApiResponse(responseCode = "200", description = "점주 리스트 조회", useReturnTypeSchema = true)
+    @GetMapping
+    public DefaultResponse<List<Owner>> marketList() {
+        return DefaultResponse.res(200, "OK", ownerService.ownerList());
+    }
 
 }
