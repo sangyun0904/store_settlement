@@ -1,5 +1,6 @@
 package com.example.storesettlement.services;
 
+import com.example.storesettlement.dto.FeeDto;
 import com.example.storesettlement.model.Fee;
 import com.example.storesettlement.repositories.FeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,10 @@ public class FeeService {
         return feeRepository.findById(1).orElseThrow();
     }
 
-    public Fee setFee(double f) {
+    public Fee setFee(FeeDto feeDto) {
         Fee fee = Fee.builder()
                 .id(1)
-                .fee(f)
+                .fee(feeDto.fee())
                 .build();
         return feeRepository.save(fee);
     }
