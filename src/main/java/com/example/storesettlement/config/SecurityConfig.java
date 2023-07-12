@@ -52,8 +52,8 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/v3/api-docs/**"
                     ).permitAll()
-                    .requestMatchers(GET, "/market/**", "/member/**", "/settlement/**", "/order/**", "/fee/**").hasAnyRole(ADMIN.name(), SETTLE_TEAM.name())
-                    .requestMatchers("/market/**", "/member/**", "/settlement/**", "/order/**", "/fee/**").hasAnyRole(ADMIN.name())
+                    .requestMatchers(GET, "/market/**", "/member/**", "/settlement/**", "/order/**", "/fee/**", "/owner/**").hasAnyRole(ADMIN.name(), SETTLE_TEAM.name())
+                    .requestMatchers("/market/**", "/member/**", "/settlement/**", "/order/**", "/fee/**", "/owner/**").hasAnyRole(ADMIN.name())
                     .requestMatchers("/owner/**").hasAnyRole(OWNER.name())
                     .anyRequest()
                     .authenticated()
