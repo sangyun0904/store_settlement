@@ -13,5 +13,6 @@ public interface SettlementRepository extends JpaRepository<Settlement, Long> {
     @Query(value = "SELECT * FROM settlement WHERE settle_date = ?", nativeQuery = true)
     List<Settlement> findAllBySettleDate(LocalDate settleDate);
 
+    @Query(value = "SELECT * FROM settlement WHERE Market = ?1 and year = ?2 and month = ?3", nativeQuery = true)
     Optional<Settlement> findByMarketAndYearAndMonth(Market market, int year, int month);
 }

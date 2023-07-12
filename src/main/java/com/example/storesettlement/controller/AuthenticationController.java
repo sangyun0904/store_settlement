@@ -53,7 +53,7 @@ public class AuthenticationController {
     }
 
 
-    @ApiResponse(responseCode = "200", description = "마켓 삭제", useReturnTypeSchema = true)
+    @ApiResponse(responseCode = "200", description = "맴버 삭제", useReturnTypeSchema = true)
     @DeleteMapping("/{name}")
     public DefaultResponse marketDelete(@PathVariable(value = "name") @Parameter(name = "name", description = "username") String name) {
         Member member = memberService.loadUserByUsername(name);
