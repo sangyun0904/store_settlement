@@ -1,4 +1,4 @@
-package com.example.storesettlement.controller;
+package com.example.storesettlement.utils;
 
 import com.example.storesettlement.dto.OrderCreateDto;
 import com.example.storesettlement.dto.OwnerCreateDto;
@@ -6,25 +6,20 @@ import com.example.storesettlement.dto.RegisterRequest;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.OrderInfo;
-import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.repositories.MarketRepository;
-import com.example.storesettlement.services.*;
-import com.example.storesettlement.utils.DefaultResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.storesettlement.services.AuthenticationService;
+import com.example.storesettlement.services.MemberService;
+import com.example.storesettlement.services.OrderService;
+import com.example.storesettlement.services.OwnerService;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.example.storesettlement.model.enums.Role.*;
 
-@RestController
-@RequestMapping("/testdata")
-@RequiredArgsConstructor
-public class TestDataController {
+@Component
+public class DummyDataGenerator {
 
     private final MemberService memberService;
     private final AuthenticationService authenticationService;
@@ -32,9 +27,13 @@ public class TestDataController {
     private final MarketRepository marketRepository;
     private final OrderService orderService;
 
-    @ApiResponse(responseCode = "200", description = "테스트 데이터 생성", useReturnTypeSchema = true)
-    @GetMapping()
-    public DefaultResponse testUser() {
+    public DummyDataGenerator(MemberService memberService, AuthenticationService authenticationService, OwnerService ownerService, MarketRepository marketRepository, OrderService orderService) {
+        this.memberService = memberService;
+        this.authenticationService = authenticationService;
+        this.ownerService = ownerService;
+        this.marketRepository = marketRepository;
+        this.orderService = orderService;
+
         if (memberService.loadUserByUsername("admin") == null) {
             RegisterRequest request = new RegisterRequest("admin", "adminPass", "admin@gmail.com", ADMIN);
             authenticationService.register(request);
@@ -78,8 +77,6 @@ public class TestDataController {
             OrderCreateDto orderDto3 = new OrderCreateDto((long) 10003, "product3", (long) 1000, "customer2", "no name market");
             orderService.addOrder(orderDto3);
         }
-
-        return DefaultResponse.res(200, "OK", "테스트 데이터 생성.");
     }
 
 }
