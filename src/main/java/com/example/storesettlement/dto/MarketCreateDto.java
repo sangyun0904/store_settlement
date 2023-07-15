@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public record MarketCreateDto(
         @NotBlank String name,
+        @NotBlank String ownerName,
         @NotBlank String address,
         @NotBlank String phone,
         @NotNull int settleDate,

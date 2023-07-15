@@ -4,6 +4,7 @@ import com.example.storesettlement.dto.MarketCreateDto;
 import com.example.storesettlement.dto.MarketEditDto;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.repositories.MarketRepository;
+import com.example.storesettlement.repositories.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MarketService {
 
     private final MarketRepository marketRepository;
+    private final OwnerRepository ownerRepository;
 
     @Transactional
     public Market addMarket(MarketCreateDto marketCreate) {
@@ -27,6 +29,7 @@ public class MarketService {
 
         Market market = Market.builder()
                 .name(marketCreate.name())
+                .owner(ownerRepository.findByName(marketCreate.ownerName()).orElseThrow(() -> new IllegalStateException("해당 이름의 점주가 존재하지 않습니다.")))
                 .address(marketCreate.address())
                 .phone(marketCreate.phone())
                 .settleDate(marketCreate.settleDate())
