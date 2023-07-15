@@ -31,7 +31,7 @@ public class OrderService {
                 .product(orderDto.product())
                 .price(orderDto.price())
                 .customer(orderDto.customer())
-                .market(marketRepository.findByName(orderDto.marketName()).orElseThrow())
+                .market(marketRepository.findByName(orderDto.marketName()).orElseThrow(() -> new IllegalStateException(orderDto.marketName() + " 이름의 마켓이 존재하지 않습니다.")))
                 .serviceCharge(Math.round(orderDto.price() * 0.1))
                 .orderDate(LocalDate.now())
                 .orderState(OrderState.ORDERED)

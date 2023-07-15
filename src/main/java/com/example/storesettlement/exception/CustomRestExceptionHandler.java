@@ -66,7 +66,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleIllegalStateException(final IllegalStateException ex, final WebRequest request) {
         final String error = ex.getLocalizedMessage();
 
-        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 6000, "Member already exists", error);
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, 6000, ex.getLocalizedMessage(), error);
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.OK);
     }
 }
