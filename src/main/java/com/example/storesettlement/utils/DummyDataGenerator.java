@@ -50,7 +50,7 @@ public class DummyDataGenerator {
         Member member = memberService.loadUserByUsername("owner");
         if (ownerService.getOwnerDetail(member) == null) {
             OwnerCreateDto ownerDto = new OwnerCreateDto("no name", "000000000000", "owner");
-            ownerService.addOwner(member, ownerDto);
+            ownerService.addOwner(ownerDto);
         }
 
         Market market = marketRepository.findByName("no name market").orElse(null);

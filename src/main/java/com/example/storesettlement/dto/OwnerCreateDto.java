@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 public record OwnerCreateDto(
         @NotBlank String name,
         @NotBlank String accountNum,
-        @NotBlank String username
+        @NotBlank String memberUsername
 ) {
 }
