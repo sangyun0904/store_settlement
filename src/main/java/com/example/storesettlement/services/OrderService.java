@@ -45,6 +45,7 @@ public class OrderService {
         OrderInfo orderInfo = orderRepository.findByOrderNum(orderNum).orElseThrow();
 
         OrderInfo newOrderInfo = OrderInfo.builder()
+                .id(orderInfo.getId())
                 .orderNum(orderInfo.getOrderNum())
                 .product(orderDto.product())
                 .price(orderDto.price())
