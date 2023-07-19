@@ -41,8 +41,8 @@ public class MarketService {
     }
 
     @Transactional
-    public Market editMarket(String name, MarketEditDto marketEdit) {
-        Market market = marketRepository.findByName(name).orElseThrow();
+    public Market editMarket(Long id, MarketEditDto marketEdit) {
+        Market market = marketRepository.findById(id).orElseThrow();
 
         Market updatedMarket = Market.builder()
                 .id(market.getId())
@@ -56,8 +56,8 @@ public class MarketService {
     }
 
     @Transactional
-    public void deleteMarket(String name) {
-        Market market = marketRepository.findByName(name).orElseThrow();
+    public void deleteMarket(Long id) {
+        Market market = marketRepository.findById(id).orElseThrow();
         marketRepository.delete(market);
     }
 
@@ -67,7 +67,12 @@ public class MarketService {
     }
 
     @Transactional
-    public Market getMarket(String name) {
+    public Market getMarketById(Long marketId) {
+        return marketRepository.findById(marketId).orElse(null);
+    }
+
+    @Transactional
+    public Market getMarketByName(String name) {
         return marketRepository.findByName(name).orElse(null);
     }
 

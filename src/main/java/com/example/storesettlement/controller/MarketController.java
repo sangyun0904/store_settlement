@@ -26,9 +26,9 @@ public class MarketController {
     }
 
     @ApiResponse(responseCode = "200", description = "마켓 상세 조회", useReturnTypeSchema = true)
-    @GetMapping("/{name}")
-    public DefaultResponse<Market> marketDetail(@PathVariable(value = "name") @Parameter(name = "name", description = "마켓 명") String name ) {
-        return DefaultResponse.res(200, "OK", marketService.getMarket(name));
+    @GetMapping("/{marketId}")
+    public DefaultResponse<Market> marketDetail(@PathVariable(value = "marketId") @Parameter(name = "marketId", description = "마켓 id") Long marketId ) {
+        return DefaultResponse.res(200, "OK", marketService.getMarketById(marketId));
     }
 
     @ApiResponse(responseCode = "200", description = "마켓 추가", useReturnTypeSchema = true)
@@ -38,15 +38,15 @@ public class MarketController {
     }
 
     @ApiResponse(responseCode = "200", description = "마켓 수정", useReturnTypeSchema = true)
-    @PatchMapping("/{name}")
-    public DefaultResponse<Market> marketUpdate(@PathVariable(value = "id") @Parameter(name = "name", description = "마켓 명") String name , @RequestBody MarketEditDto marketEditDto) {
-        return DefaultResponse.res(200, "OK", marketService.editMarket(name, marketEditDto));
+    @PatchMapping("/{marketId}")
+    public DefaultResponse<Market> marketUpdate(@PathVariable(value = "marketId") @Parameter(name = "marketId", description = "마켓 id") Long marketId , @RequestBody MarketEditDto marketEditDto) {
+        return DefaultResponse.res(200, "OK", marketService.editMarket(marketId, marketEditDto));
     }
 
     @ApiResponse(responseCode = "200", description = "마켓 삭제", useReturnTypeSchema = true)
-    @DeleteMapping("/{name}")
-    public DefaultResponse marketDelete(@PathVariable(value = "name") @Parameter(name = "name", description = "마켓 명") String name) {
-        marketService.deleteMarket(name);
+    @DeleteMapping("/{marketId}")
+    public DefaultResponse marketDelete(@PathVariable(value = "marketId") @Parameter(name = "marketId", description = "마켓 id") Long marketId) {
+        marketService.deleteMarket(marketId);
         return DefaultResponse.res(200, "OK");
     }
 

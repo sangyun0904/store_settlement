@@ -28,7 +28,7 @@ public class SettlementController {
     @ApiResponse(responseCode = "200", description = "정산 생성 및 수정", useReturnTypeSchema = true)
     @PostMapping()
     public DefaultResponse<Settlement> settlementMain(@RequestBody SettlementCreateDto settleDto) {
-        Settlement settlement = settlementService.createSettlement(marketService.getMarket(settleDto.marketName()), settleDto.year(), settleDto.month());
+        Settlement settlement = settlementService.createSettlement(marketService.getMarketByName(settleDto.marketName()), settleDto.year(), settleDto.month());
         return DefaultResponse.res(200, "OK", settlement);
     }
 }
