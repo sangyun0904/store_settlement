@@ -38,6 +38,7 @@ public class JwtService {
             Map<String, Object> extraClaims,
             Member member
     ) {
+        extraClaims.put("role", member.getRole().name());
         return buildToken(extraClaims, member, ACCESS_EXPIRATION);
     }
 
@@ -54,7 +55,6 @@ public class JwtService {
             Member member,
             long expiration
     ) {
-        extraClaims.put("role", member.getRole());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -85,6 +85,9 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
+    @Transactional
+    public String extractRole(String token) { return (String) extractAllClaims(token).get("role");}
 
     @Transactional
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
