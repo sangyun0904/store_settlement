@@ -1,6 +1,6 @@
 package com.example.storesettlement.config;
 
-import com.example.storesettlement.repositories.MemberRepository;
+import com.example.storesettlement.aop.TimeTraceAop;
 import com.example.storesettlement.services.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,5 +34,10 @@ public class ApplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public TimeTraceAop timeTraceAop() {
+        return new TimeTraceAop();
     }
 }
