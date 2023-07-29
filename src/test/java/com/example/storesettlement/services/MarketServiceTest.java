@@ -19,7 +19,7 @@ class MarketServiceTest {
 
     @Test
     void 마켓생성() {
-        MarketCreateDto dto = new MarketCreateDto("market", "잠실로 88", "01000000000", 1, LocalDate.now());
+        MarketCreateDto dto = new MarketCreateDto("market","owner", "잠실로 88", "01000000000", 1, LocalDate.now());
         Market market = marketService.addMarket(dto);
         assertThat(market.getName()).isEqualTo("market");
     }

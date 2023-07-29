@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
@@ -39,5 +41,9 @@ public class MemberService implements UserDetailsService {
     @Transactional
     public void deleteMember(Long id) {
         memberRepository.delete(memberRepository.findById(id).orElseThrow());
+    }
+
+    public List<Member> getAllMember() {
+        return memberRepository.findAll();
     }
 }
