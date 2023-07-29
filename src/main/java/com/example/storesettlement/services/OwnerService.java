@@ -1,6 +1,7 @@
 package com.example.storesettlement.services;
 
 import com.example.storesettlement.dto.OwnerCreateDto;
+import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.model.enums.Role;
@@ -52,5 +53,18 @@ public class OwnerService {
     @Transactional
     public List<Owner> ownerList() {
         return ownerRepository.findAll();
+    }
+
+    @Transactional
+    public Owner addMarket(String ownerName, Market market) {
+        Owner owner = ownerRepository.findByName(ownerName).orElseThrow();
+        Owner newOwner = Owner.builder()
+                .id(owner.getId())
+                .name(owner.getName())
+                .accountNum(owner.getAccountNum())
+                .member(owner.getMember())
+                .market(market)
+                .build();
+        return ownerRepository.save(newOwner);
     }
 }

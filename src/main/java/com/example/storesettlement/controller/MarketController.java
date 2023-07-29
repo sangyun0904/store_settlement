@@ -4,6 +4,7 @@ import com.example.storesettlement.dto.MarketCreateDto;
 import com.example.storesettlement.dto.MarketEditDto;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.services.MarketService;
+import com.example.storesettlement.services.OwnerService;
 import com.example.storesettlement.utils.DefaultResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MarketController {
 
     private final MarketService marketService;
+    private final OwnerService ownerService;
 
     @ApiResponse(responseCode = "200", description = "마켓 리스트 조회", useReturnTypeSchema = true)
     @GetMapping
@@ -34,7 +36,9 @@ public class MarketController {
     @ApiResponse(responseCode = "200", description = "마켓 추가", useReturnTypeSchema = true)
     @PostMapping
     public DefaultResponse<Market> marketCreate(@RequestBody MarketCreateDto marketCreate) {
-        return DefaultResponse.res(200, "OK", marketService.addMarket(marketCreate));
+        Market market = marketService.addMarket(marketCreate);
+        ownerService.addMarket(marketCreate.ownerName(), market);
+        return DefaultResponse.res(200, "OK", market);
     }
 
     @ApiResponse(responseCode = "200", description = "마켓 수정", useReturnTypeSchema = true)

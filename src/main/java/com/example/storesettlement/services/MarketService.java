@@ -3,6 +3,7 @@ package com.example.storesettlement.services;
 import com.example.storesettlement.dto.MarketCreateDto;
 import com.example.storesettlement.dto.MarketEditDto;
 import com.example.storesettlement.model.Market;
+import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.repositories.MarketRepository;
 import com.example.storesettlement.repositories.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,10 @@ public class MarketService {
 
         if (marketRepository.findByName(marketCreate.name()).isPresent()) {
             throw new IllegalStateException("같은 이름의 마켓이 존재합니다.");
+        }
+        Owner owner = ownerRepository.findByName(marketCreate.ownerName()).orElseThrow();
+        if (marketRepository.findByOwner(owner).isPresent()) {
+            throw new IllegalStateException("이 점주는 이미 마켓이 존재합니다.");
         }
 
         Market market = Market.builder()

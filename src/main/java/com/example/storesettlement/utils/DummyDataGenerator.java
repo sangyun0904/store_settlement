@@ -1,5 +1,7 @@
 package com.example.storesettlement.utils;
 
+import com.example.storesettlement.controller.MarketController;
+import com.example.storesettlement.dto.MarketCreateDto;
 import com.example.storesettlement.dto.OrderCreateDto;
 import com.example.storesettlement.dto.OwnerCreateDto;
 import com.example.storesettlement.dto.RegisterRequest;
@@ -24,13 +26,15 @@ public class DummyDataGenerator {
     private final MemberService memberService;
     private final AuthenticationService authenticationService;
     private final OwnerService ownerService;
+    private final MarketController marketController;
     private final MarketRepository marketRepository;
     private final OrderService orderService;
 
-    public DummyDataGenerator(MemberService memberService, AuthenticationService authenticationService, OwnerService ownerService, MarketRepository marketRepository, OrderService orderService) {
+    public DummyDataGenerator(MemberService memberService, AuthenticationService authenticationService, OwnerService ownerService, MarketController marketController, MarketRepository marketRepository, OrderService orderService) {
         this.memberService = memberService;
         this.authenticationService = authenticationService;
         this.ownerService = ownerService;
+        this.marketController = marketController;
         this.marketRepository = marketRepository;
         this.orderService = orderService;
 
@@ -53,28 +57,20 @@ public class DummyDataGenerator {
             ownerService.addOwner(ownerDto);
         }
 
-        Market market = marketRepository.findByName("no name market").orElse(null);
-        if (market == null) {
-            market = Market.builder()
-                    .name("no name market")
-                    .address("Mountain View, California, United States")
-                    .phone("000-0000-0000")
-                    .openDate(LocalDate.parse("1999-09-09"))
-                    .uploadDate(LocalDate.now())
-                    .settleDate(25)
-                    .owner(ownerService.getOwnerDetail(member))
-                    .build();
-            marketRepository.save(market);
+        if (!marketRepository.findByName("market").isPresent()) {
+            MarketCreateDto marketCreateDto = new MarketCreateDto("market", "no name", "Mountain View, California, United States", "000-0000-0000", 25, LocalDate.parse("1999-09-09"));
+            marketController.marketCreate(marketCreateDto).getData();
         }
 
+        Market market = marketRepository.findByName("market").orElseThrow();
         List<OrderInfo> orderList = orderService.getOrderByMarket(market);
 
         if (orderList.size() == 0) {
-            OrderCreateDto orderDto1 = new OrderCreateDto((long) 10001, "product1", (long) 17000, "customer1", "no name market");
+            OrderCreateDto orderDto1 = new OrderCreateDto((long) 10001, "product1", (long) 17000, "customer1", "market");
             orderService.addOrder(orderDto1);
-            OrderCreateDto orderDto2 = new OrderCreateDto((long) 10002, "product2", (long) 20000, "customer1", "no name market");
+            OrderCreateDto orderDto2 = new OrderCreateDto((long) 10002, "product2", (long) 20000, "customer1", "market");
             orderService.addOrder(orderDto2);
-            OrderCreateDto orderDto3 = new OrderCreateDto((long) 10003, "product3", (long) 1000, "customer2", "no name market");
+            OrderCreateDto orderDto3 = new OrderCreateDto((long) 10003, "product3", (long) 1000, "customer2", "market");
             orderService.addOrder(orderDto3);
         }
     }
