@@ -30,9 +30,8 @@ public class Market {
     @NotNull
     private int settleDate;
 
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "market")
     @NotNull
-    @JoinColumn(name = "OWNER_ID", nullable = false)
     private Owner owner;
     @NotNull
     private LocalDate openDate;
