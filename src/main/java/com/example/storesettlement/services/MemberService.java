@@ -46,4 +46,12 @@ public class MemberService implements UserDetailsService {
     public List<Member> getAllMember() {
         return memberRepository.findAll();
     }
+
+    public Member getMemberDetail(String name) {
+        Member member = memberRepository.findByUsername(name).orElse(null);
+        if (member == null) {
+            throw new IllegalStateException(name + " 아이디의 계정이 존재하지 않습니다.");
+        }
+        return member;
+    }
 }

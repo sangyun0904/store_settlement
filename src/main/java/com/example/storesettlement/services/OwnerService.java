@@ -1,6 +1,7 @@
 package com.example.storesettlement.services;
 
 import com.example.storesettlement.dto.OwnerCreateDto;
+import com.example.storesettlement.dto.OwnerEditDto;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
@@ -66,5 +67,28 @@ public class OwnerService {
                 .market(market)
                 .build();
         return ownerRepository.save(newOwner);
+    }
+
+    public Owner editOwner(Long ownerId, OwnerEditDto ownerEditDto) {
+        Owner owner = ownerRepository.findById(ownerId).orElse(null);
+        if (owner == null) {
+            throw new IllegalStateException("존재하지 않는 오너");
+        }
+        Owner newOwner = Owner.builder()
+                .id(owner.getId())
+                .market(owner.getMarket())
+                .member(owner.getMember())
+                .name(ownerEditDto.name())
+                .accountNum(ownerEditDto.accountNum())
+                .build();
+        return ownerRepository.save(newOwner);
+    }
+
+    public void deleteOwner(Long ownerId) {
+        Owner owner = ownerRepository.findById(ownerId).orElse(null);
+        if (owner == null) {
+            throw new IllegalStateException("존재하지 않는 오너");
+        }
+        ownerRepository.delete(owner);
     }
 }

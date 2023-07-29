@@ -63,10 +63,16 @@ public class AuthenticationController {
         return DefaultResponse.res(200, "OK", null);
     }
 
-    @ApiResponse(responseCode = "200", description = "계졍 조회", useReturnTypeSchema = true)
+    @ApiResponse(responseCode = "200", description = "계졍 리스트 조회", useReturnTypeSchema = true)
     @GetMapping
     public DefaultResponse<List<Member>> memberList() {
         return DefaultResponse.res(200, "OK", memberService.getAllMember());
+    }
+
+    @ApiResponse(responseCode = "200", description = "계졍 조회", useReturnTypeSchema = true)
+    @GetMapping("/{name}")
+    public DefaultResponse<Member> memberDetail(@PathVariable(value = "name") @Parameter(name = "name", description = "username") String name) {
+        return DefaultResponse.res(200, "OK", memberService.getMemberDetail(name));
     }
 
 }

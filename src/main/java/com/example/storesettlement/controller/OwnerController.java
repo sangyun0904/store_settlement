@@ -1,8 +1,6 @@
 package com.example.storesettlement.controller;
 
-import com.example.storesettlement.dto.MarketCreateDto;
-import com.example.storesettlement.dto.OwnerCreateDto;
-import com.example.storesettlement.dto.RegisterRequest;
+import com.example.storesettlement.dto.*;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
@@ -10,6 +8,7 @@ import com.example.storesettlement.services.JwtService;
 import com.example.storesettlement.services.MemberService;
 import com.example.storesettlement.services.OwnerService;
 import com.example.storesettlement.utils.DefaultResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -58,5 +57,18 @@ public class OwnerController {
     public DefaultResponse<List<Owner>> marketList() {
         return DefaultResponse.res(200, "OK", ownerService.ownerList());
     }
+    @ApiResponse(responseCode = "200", description = "점주 수정", useReturnTypeSchema = true)
+    @PatchMapping("/{ownerId}")
+    public DefaultResponse<Owner> marketUpdate(@PathVariable(value = "ownerId") @Parameter(name = "ownerId", description = "점주 id") Long ownerId , @RequestBody OwnerEditDto ownerEditDto) {
+        return DefaultResponse.res(200, "OK", ownerService.editOwner(ownerId, ownerEditDto));
+    }
+
+    @ApiResponse(responseCode = "200", description = "점주 삭제", useReturnTypeSchema = true)
+    @DeleteMapping("/{ownerId}")
+    public DefaultResponse marketDelete(@PathVariable(value = "ownerId") @Parameter(name = "ownerId", description = "점주 id") Long ownerId) {
+        ownerService.deleteOwner(ownerId);
+        return DefaultResponse.res(200, "OK");
+    }
+
 
 }
