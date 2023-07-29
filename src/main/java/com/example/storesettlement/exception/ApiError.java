@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class ApiError {
     private HttpStatus status;
-    private int customCode;
-    private String message;
+    private int statusCode;
+    private String responseMessage;
     private String errors;
 
 }
