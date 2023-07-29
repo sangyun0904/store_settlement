@@ -57,6 +57,9 @@ public class MarketService {
                 .address(marketEdit.address())
                 .phone(marketEdit.phone())
                 .name(marketEdit.name())
+                .ownerId(market.getOwnerId())
+                .openDate(market.getOpenDate())
+                .uploadDate(market.getUploadDate())
                 .settleDate(marketEdit.settleDate())
                 .build();
 

@@ -50,6 +50,7 @@ public class MarketController {
     @ApiResponse(responseCode = "200", description = "마켓 삭제", useReturnTypeSchema = true)
     @DeleteMapping("/{marketId}")
     public DefaultResponse marketDelete(@PathVariable(value = "marketId") @Parameter(name = "marketId", description = "마켓 id") Long marketId) {
+        ownerService.deleteMarketReference(marketId);
         marketService.deleteMarket(marketId);
         return DefaultResponse.res(200, "OK");
     }

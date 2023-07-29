@@ -42,7 +42,12 @@ public class OrderService {
 
     @Transactional
     public OrderInfo editOrder(Long orderNum, OrderEditDto orderDto) {
+        System.out.println(orderNum);
         OrderInfo orderInfo = orderRepository.findByOrderNum(orderNum).orElseThrow();
+        Market market = marketRepository.findByName(orderDto.marketName()).orElse(null);
+        if (market == null) {
+            throw new IllegalStateException(orderDto.marketName() + " 이름의 마켓이 존재하지 않습니다.");
+        }
 
         OrderInfo newOrderInfo = OrderInfo.builder()
                 .id(orderInfo.getId())
@@ -50,7 +55,7 @@ public class OrderService {
                 .product(orderDto.product())
                 .price(orderDto.price())
                 .customer(orderDto.customer())
-                .market(marketRepository.findByName(orderDto.marketName()).orElseThrow())
+                .market(market)
                 .serviceCharge(Math.round(orderDto.price() * 0.1))
                 .orderDate(orderInfo.getOrderDate())
                 .orderState(orderInfo.getOrderState())

@@ -6,6 +6,7 @@ import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Member;
 import com.example.storesettlement.model.Owner;
 import com.example.storesettlement.model.enums.Role;
+import com.example.storesettlement.repositories.MarketRepository;
 import com.example.storesettlement.repositories.MemberRepository;
 import com.example.storesettlement.repositories.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final MemberRepository memberRepository;
+    private final MarketRepository marketRepository;
 
     @Transactional
     public Owner getOwnerDetail(Member member) {
@@ -90,5 +92,18 @@ public class OwnerService {
             throw new IllegalStateException("존재하지 않는 오너");
         }
         ownerRepository.delete(owner);
+    }
+
+    public void deleteMarketReference(Long marketId) {
+        Market market = marketRepository.findById(marketId).orElseThrow();
+        Owner owner = ownerRepository.findById(market.getOwnerId()).orElseThrow();
+        Owner newOwner = Owner.builder()
+                .id(owner.getId())
+                .name(owner.getName())
+                .member(owner.getMember())
+                .accountNum(owner.getAccountNum())
+                .market(null)
+                .build();
+        ownerRepository.save(newOwner);
     }
 }
