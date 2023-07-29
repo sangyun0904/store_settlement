@@ -28,13 +28,13 @@ public class MarketService {
             throw new IllegalStateException("같은 이름의 마켓이 존재합니다.");
         }
         Owner owner = ownerRepository.findByName(marketCreate.ownerName()).orElseThrow();
-        if (marketRepository.findByOwner(owner).isPresent()) {
+        if (marketRepository.findByOwnerId(owner.getId()).isPresent()) {
             throw new IllegalStateException("이 점주는 이미 마켓이 존재합니다.");
         }
 
         Market market = Market.builder()
                 .name(marketCreate.name())
-                .owner(ownerRepository.findByName(marketCreate.ownerName()).orElseThrow(() -> new IllegalStateException("해당 이름의 점주가 존재하지 않습니다.")))
+                .ownerId(ownerRepository.findByName(marketCreate.ownerName()).orElseThrow(() -> new IllegalStateException("해당 이름의 점주가 존재하지 않습니다.")).getId())
                 .address(marketCreate.address())
                 .phone(marketCreate.phone())
                 .settleDate(marketCreate.settleDate())

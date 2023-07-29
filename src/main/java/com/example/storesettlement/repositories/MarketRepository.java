@@ -13,5 +13,5 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
 
     Optional<Market> findByName(String name);
 
-    Optional<Market> findByOwner(Owner owner);
+    Optional<Market> findByOwnerId(Long ownerId);
 }

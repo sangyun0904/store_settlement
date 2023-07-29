@@ -25,8 +25,7 @@ public class Owner {
     private Market market;
     @NotBlank
     private String accountNum;
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.JOIN)
+    @OneToOne
     @NotNull
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;

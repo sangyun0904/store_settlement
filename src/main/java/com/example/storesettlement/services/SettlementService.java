@@ -3,6 +3,7 @@ package com.example.storesettlement.services;
 import com.example.storesettlement.model.Market;
 import com.example.storesettlement.model.Settlement;
 import com.example.storesettlement.repositories.OrderRepository;
+import com.example.storesettlement.repositories.OwnerRepository;
 import com.example.storesettlement.repositories.SettlementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class SettlementService {
 
     private final SettlementRepository settlementRepository;
     private final OrderRepository orderRepository;
+    private final OwnerRepository ownerRepository;
 
     @Transactional
     public Settlement createSettlement(Market market, String year, String month) {
@@ -30,7 +32,7 @@ public class SettlementService {
         if (settlement == null) {
             settlement = Settlement.builder()
                     .settlement(orderIncome)
-                    .owner(market.getOwner())
+                    .owner(ownerRepository.findById(market.getOwnerId()).orElseThrow())
                     .settleDate(LocalDate.now())
                     .isPaid(false)
                     .build();
@@ -38,7 +40,7 @@ public class SettlementService {
             settlement = Settlement.builder()
                     .id(settlement.getId())
                     .settlement(orderIncome)
-                    .owner(market.getOwner())
+                    .owner(ownerRepository.findById(market.getOwnerId()).orElseThrow())
                     .settleDate(LocalDate.now())
                     .isPaid(false)
                     .build();

@@ -30,9 +30,8 @@ public class Market {
     @NotNull
     private int settleDate;
 
-    @OneToOne(mappedBy = "market")
     @NotNull
-    private Owner owner;
+    private Long ownerId;
     @NotNull
     private LocalDate openDate;
     @NotNull
